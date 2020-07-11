@@ -52,10 +52,9 @@ steps:
   - task: SqlAzureDacpacDeployment@1
     inputs:
       azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
-      AuthenticationType: connectionString
-      #ServerName: 'angulartest.database.windows.net'
-      #DatabaseName: 'angulartestdb'
-      connectionString: 'Data Source=angulartest.database.windows.net; Initial Catalog=angulartestdb;Access Token=$(sqlToken);Use Encryption for Data=true;'
+      AuthenticationType: 'connectionString'
+      ConnectionString: 'Server=tcp:angulartest.database.windows.net,1433;Initial Catalog=angulartestdb;Persist Security Info=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False'
       deployType: 'InlineSqlTask'
       SqlInline: 'select getdate()'
+      InlineAdditionalArguments: '/AccessToken:$(sqlToken)'
       IpDetectionMethod: 'AutoDetect'
