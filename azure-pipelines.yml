@@ -55,14 +55,14 @@ steps:
       Inline: |
         $conn = New-Object System.Data.SqlClient.SQLConnection
         $conn.ConnectionString = “Server=angulartest.database.windows.net;Initial Catalog=angulartestdb;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30”
-        $conn.AccessToken = $(sqlToken)
+        $conn.AccessToken = "$(sqlToken)"
         Write-Host “Connect to database and execute SQL script”
         $conn.Open()
         $query = "select getdate()
         "
         Write-Host $query
         $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $conn)
-        $Result = $command.ExecuteQuery()
+        $Result = $command.ExecuteScalar()
         $Result
         $conn.Close()
       azurePowerShellVersion: 'LatestVersion'
