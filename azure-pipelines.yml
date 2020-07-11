@@ -58,7 +58,15 @@ steps:
         $conn.AccessToken = "$(sqlToken)"
         Write-Host “Connect to database and execute SQL script”
         $conn.Open()
-        $query = "CREATE USER awesome-svc-prin FROM EXTERNAL PROVIDER
+        $query = "
+        IF NOT EXISTS(SELECT * from sys.database_principals WHERE name = 'awesome-svc-prin')
+        BEGIN
+          CREATE USER [awesome-svc-prin] FROM EXTERNAL PROVIDER
+        END
+        ELSE
+        BEGIN
+            PRINT 'User awesome-svc-prin already exists'
+        END
         "
         Write-Host $query
         $command = New-Object -TypeName System.Data.SqlClient.SqlCommand($query, $conn)
