@@ -10,7 +10,7 @@ pr:
 - none
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: windows-latest
 
 steps:
   - task: SqlAzureDacpacDeployment@1
