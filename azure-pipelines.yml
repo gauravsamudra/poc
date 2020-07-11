@@ -43,16 +43,19 @@ steps:
             } -ContentType 'application/x-www-form-urlencoded'
         
         if ($tokenResponse) {
-            Write-Host "Access token type is $($tokenResponse.token_type), expires $($tokenResponse.expires_on)"
-            $Token = $tokenResponse.access_token
+          Write-Host "Access token type is $($tokenResponse.token_type), expires $($tokenResponse.expires_on)"
+          $token = $tokenResponse.access_token
+          Write-Host("##vso[task.setvariable variable=sqlToken;]$token")
         }
+        
 
   - task: SqlAzureDacpacDeployment@1
     inputs:
       azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
-      AuthenticationType: 'aadAuthenticationIntegrated'
-      ServerName: 'angulartest.database.windows.net'
-      DatabaseName: 'angulartestdb'
+      AuthenticationType: connectionString
+      #ServerName: 'angulartest.database.windows.net'
+      #DatabaseName: 'angulartestdb'
+      connectionString: 'Data Source=angulartest.database.windows.net; Initial Catalog=angulartestdb;Access Token=$(sqlToken);Use Encryption for Data=true;'
       deployType: 'InlineSqlTask'
       SqlInline: 'select getdate()'
       IpDetectionMethod: 'AutoDetect'
