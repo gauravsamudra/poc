@@ -12,12 +12,13 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
-- task: SqlAzureDacpacDeployment@1
-  inputs:
-    azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
-    AuthenticationType: 'aadAuthenticationIntegrated'
-    ServerName: 'angulartest.database.windows.net'
-    DatabaseName: 'angulartestdb'
-    deployType: 'InlineSqlTask'
-    SqlInline: 'select getdate()'
-    IpDetectionMethod: 'AutoDetect'
+steps:
+  - task: SqlAzureDacpacDeployment@1
+    inputs:
+      azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
+      AuthenticationType: 'aadAuthenticationIntegrated'
+      ServerName: 'angulartest.database.windows.net'
+      DatabaseName: 'angulartestdb'
+      deployType: 'InlineSqlTask'
+      SqlInline: 'select getdate()'
+      IpDetectionMethod: 'AutoDetect'
