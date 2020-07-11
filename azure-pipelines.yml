@@ -53,6 +53,19 @@ steps:
       azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
       ScriptType: 'InlineScript'
       Inline: |
+        $objId="2dd353f9-850a-4d30-91ef-2a0006e08d71"
+        function ConvertTo-Sid {
+          param (
+            [string]$objectId
+          )
+          [guid]$guid = [System.Guid]::Parse($objectId)
+          foreach ($byte in $guid.ToByteArray()) {
+          $byteGuid += [System.String]::Format(“{0:X2}”, $byte)
+          }
+          return “0x” + $byteGuid
+        }
+        $SID=ConvertTo-Sid($objId)
+
         $conn = New-Object System.Data.SqlClient.SQLConnection
         $conn.ConnectionString = “Server=angulartest.database.windows.net;Initial Catalog=angulartestdb;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30”
         $conn.AccessToken = "$(sqlToken)"
@@ -61,7 +74,7 @@ steps:
         $query = "
         IF NOT EXISTS(SELECT * from sys.database_principals WHERE name = 'awesome-svc-prin')
         BEGIN
-          CREATE USER [awesome-svc-prin] FROM EXTERNAL PROVIDER
+          CREATE USER [awesome-svc-prin] , SID = $SID, TYPE= X;
         END
         ELSE
         BEGIN
