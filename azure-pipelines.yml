@@ -13,6 +13,39 @@ pool:
   vmImage: windows-latest
 
 steps:
+
+  - task: AzureKeyVault@1
+    inputs:
+      azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
+      KeyVaultName: 'gsvault'
+      SecretsFilter: 'azure-pipelines-svcprin--secret1'
+      RunAsPreJob: false
+
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
+      scriptType: 'ps'
+      scriptLocation: 'inlineScript'
+      inlineScript: |
+        $TenantID = 'b380ac77-d7e0-439e-88d1-6b82f7295bf4'
+        $clientId = '0dd2d500-42dc-4dab-9ce8-7a07275da0af' # id of azure-pipelines-svcprin
+        $clientSecret = '$(azure-pipelines-svcprin--secret1)'
+        $resourceAppIdURI = 'https://database.windows.net/'
+        
+        $tokenResponse = Invoke-RestMethod -Method Post -UseBasicParsing `
+            -Uri "https://login.windows.net/$($TenantID)/oauth2/token" `
+            -Body @{
+                resource=$resourceAppIdURI
+                client_id=$clientId
+                grant_type='client_credentials'
+                client_secret=$clientSecret
+            } -ContentType 'application/x-www-form-urlencoded'
+        
+        if ($tokenResponse) {
+            Write-debug "Access token type is $($tokenResponse.token_type), expires $($tokenResponse.expires_on)"
+            $Token = $tokenResponse.access_token
+        }
+
   - task: SqlAzureDacpacDeployment@1
     inputs:
       azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
