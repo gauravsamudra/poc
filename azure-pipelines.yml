@@ -74,7 +74,7 @@ steps:
         $query = "
         IF NOT EXISTS(SELECT * from sys.database_principals WHERE name = 'awesome-svc-prin')
         BEGIN
-          CREATE USER [awesome-svc-prin] , SID = $SID, TYPE= X;
+          CREATE USER [awesome-svc-prin] , SID = '$SID', TYPE= 'X';
         END
         ELSE
         BEGIN
