@@ -14,7 +14,7 @@ jobs:
 
   - task: AzureKeyVault@1
     inputs:
-      azureSubscription: $(subscriptionNameFromLibrary)
+      azureSubscription: $[variables.subscriptionNameFromLibrary]
       KeyVaultName: 'gsvault'
       SecretsFilter: 'tools-health-gss-api-secret'
       RunAsPreJob: false
