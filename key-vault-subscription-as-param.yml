@@ -15,31 +15,37 @@ pool:
 variables:
   - group: key-vault-subscription-as-param
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+- stage: stage1
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+  jobs:
+  - job: job1
 
-- template: key-vault-subscription-as-param-template.yml
-  parameters:
-    subsName: $(subscriptionNameFromLibrary)
+    steps:
+    - script: echo Hello, world!
+      displayName: 'Run a one-line script'
 
-# - task: AzureKeyVault@1
-#   inputs:
-#     azureSubscription: $(subscriptionNameFromLibrary)
-#     KeyVaultName: 'gsvault'
-#     SecretsFilter: 'tools-health-gss-api-secret'
-#     RunAsPreJob: false
+    - script: |
+        echo Add other tasks to build, test, and deploy your project.
+        echo See https://aka.ms/yaml
+      displayName: 'Run a multi-line script'
 
-- task: PowerShell@2
-  displayName: Did we get the value
-  inputs:
-    targetType: 'inline'
-    script: |
-      # Write your PowerShell commands here.
-      Write-Host "secret value $(tools-health-gss-api-secret)"
-      
+    - template: key-vault-subscription-as-param-template.yml
+      parameters:
+        subsName: $(subscriptionNameFromLibrary)
+
+    # - task: AzureKeyVault@1
+    #   inputs:
+    #     azureSubscription: $(subscriptionNameFromLibrary)
+    #     KeyVaultName: 'gsvault'
+    #     SecretsFilter: 'tools-health-gss-api-secret'
+    #     RunAsPreJob: false
+
+    - task: PowerShell@2
+      displayName: Did we get the value
+      inputs:
+        targetType: 'inline'
+        script: |
+          # Write your PowerShell commands here.
+          Write-Host "secret value $(tools-health-gss-api-secret)"
+        
