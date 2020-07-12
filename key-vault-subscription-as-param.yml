@@ -22,6 +22,8 @@ steps:
   displayName: 'Run a multi-line script'
 
 - template: key-vault-subscription-as-param-template.yml
+  parameters:
+    subsName: 'knol-subs_vsenterprise-rg_poc-svcconn'
 
 # - task: AzureKeyVault@1
 #   inputs:
