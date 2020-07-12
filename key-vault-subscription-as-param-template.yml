@@ -1,7 +1,28 @@
-steps:
-- task: AzureKeyVault@1
-  inputs:
-    azureSubscription: ${{ parameters.subsName }}
-    KeyVaultName: 'gsvault'
-    SecretsFilter: 'tools-health-gss-api-secret'
-    RunAsPreJob: false
+jobs:
+- job: job1
+  variables:
+    - group: ${{ pameters.variableGroup }}
+
+  steps:
+  - script: echo Hello, world!
+    displayName: 'Run a one-line script'
+
+  - script: |
+      echo Add other tasks to build, test, and deploy your project.
+      echo See https://aka.ms/yaml
+    displayName: 'Run a multi-line script'
+
+  - task: AzureKeyVault@1
+    inputs:
+      azureSubscription: $(subscriptionNameFromLibrary)
+      KeyVaultName: 'gsvault'
+      SecretsFilter: 'tools-health-gss-api-secret'
+      RunAsPreJob: false
+
+  - task: PowerShell@2
+    displayName: Did we get the value
+    inputs:
+      targetType: 'inline'
+      script: |
+        # Write your PowerShell commands here.
+        Write-Host "secret value $(tools-health-gss-api-secret)"
