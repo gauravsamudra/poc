@@ -2,6 +2,8 @@ jobs:
 - job: job1
   variables:
     - group: ${{ parameters.variableGroup }}
+    - name: subscriptionVariable
+      value: $[variables.subscriptionNameFromLibrary]
 
   steps:
   - script: echo Hello, world!
@@ -13,8 +15,9 @@ jobs:
     displayName: 'Run a multi-line script'
 
   - task: AzureKeyVault@1
+    condition: 
     inputs:
-      azureSubscription: ${{ variables.subscriptionNameFromLibrary }}
+      azureSubscription: $(subscriptionVariable)
       KeyVaultName: 'gsvault'
       SecretsFilter: 'tools-health-gss-api-secret'
       RunAsPreJob: false
