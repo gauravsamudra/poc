@@ -6,7 +6,7 @@ jobs:
       value: $[variables.subscriptionNameFromLibrary]
 
   steps:
-  - script: echo Hello, world!
+  - script: echo Hello, world! SubscriptionName- $(subscriptionNameFromLibrary)!
     displayName: 'Run a one-line script'
 
   - script: |
