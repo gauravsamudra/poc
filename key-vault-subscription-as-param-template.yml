@@ -1,0 +1,6 @@
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
+    KeyVaultName: 'gsvault'
+    SecretsFilter: 'azure-pipelines-svcprin--secret1'
+    RunAsPreJob: false
