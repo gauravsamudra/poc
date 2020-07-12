@@ -4,7 +4,10 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- none
+
+pr:
+- none
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -25,5 +28,16 @@ steps:
     SecretsFilter: 'azure-pipelines-svcprin--secret1'
     RunAsPreJob: false
 
-- script: echo secret value $(azure-pipelines-svcprin--secret1)
-  displayName: 'Did we get the value'
+- task: PowerShell@2
+  displayName: Did we get the value
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      Write-Host "secret value $(azure-pipelines-svcprin--secret1)"
+      try {
+        $(azure-pipelines-svcprin--secret1).GetType()
+      }
+      catch {
+          
+      }
