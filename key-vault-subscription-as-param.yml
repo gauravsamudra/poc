@@ -12,8 +12,8 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
-# variables:
-#   - group: key-vault-subscription-as-param
+variables:
+  - group: key-vault-subscription-as-param
 
 steps:
 - script: echo Hello, world!
@@ -26,9 +26,7 @@ steps:
 
 - template: key-vault-subscription-as-param-template.yml
   parameters:
-    variableGroup: key-vault-subscription-as-param
-    #subsName: $(subscriptionNameFromLibrary)
-
+    subsName: $(subscriptionNameFromLibrary)
 
 # - task: AzureKeyVault@1
 #   inputs:

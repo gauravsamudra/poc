@@ -1,18 +1,7 @@
-variables:
-  group: ${{ parameters.variableGroup }}
-
 steps:
 - task: AzureKeyVault@1
   inputs:
-    azureSubscription: $(subscriptionNameFromLibrary)
+    azureSubscription: ${{ parameters.subsName }}
     KeyVaultName: 'gsvault'
     SecretsFilter: 'tools-health-gss-api-secret'
     RunAsPreJob: false
-
-# steps:
-# - task: AzureKeyVault@1
-#   inputs:
-#     azureSubscription: ${{ parameters.subsName }}
-#     KeyVaultName: 'gsvault'
-#     SecretsFilter: 'tools-health-gss-api-secret'
-#     RunAsPreJob: false
