@@ -12,6 +12,9 @@ pr:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  - group: key-vault-subscription-as-param
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -21,16 +24,16 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-- template: key-vault-subscription-as-param-template.yml
-  parameters:
-    subsName: 'knol-subs_vsenterprise-rg_poc-svcconn'
+# - template: key-vault-subscription-as-param-template.yml
+#   parameters:
+#     subsName: 'knol-subs_vsenterprise-rg_poc-svcconn'
 
-# - task: AzureKeyVault@1
-#   inputs:
-#     azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
-#     KeyVaultName: 'gsvault'
-#     SecretsFilter: 'azure-pipelines-svcprin--secret1'
-#     RunAsPreJob: false
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscription: $(subscriptionNameFromLibrary)
+    KeyVaultName: 'gsvault'
+    SecretsFilter: 'azure-pipelines-svcprin--secret1'
+    RunAsPreJob: false
 
 - task: PowerShell@2
   displayName: Did we get the value
