@@ -21,12 +21,14 @@ steps:
     echo See https://aka.ms/yaml
   displayName: 'Run a multi-line script'
 
-- task: AzureKeyVault@1
-  inputs:
-    azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
-    KeyVaultName: 'gsvault'
-    SecretsFilter: 'azure-pipelines-svcprin--secret1'
-    RunAsPreJob: false
+- template: key-vault-subscription-as-param-template.yml
+
+# - task: AzureKeyVault@1
+#   inputs:
+#     azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
+#     KeyVaultName: 'gsvault'
+#     SecretsFilter: 'azure-pipelines-svcprin--secret1'
+#     RunAsPreJob: false
 
 - task: PowerShell@2
   displayName: Did we get the value
