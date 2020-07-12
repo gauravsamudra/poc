@@ -15,9 +15,9 @@ jobs:
     displayName: 'Run a multi-line script'
 
   - task: AzureKeyVault@1
-    condition: 
+    condition: eq('$(subscriptionNameFromLibrary)','knol-subs_vsenterprise-rg_poc-svcconn')
     inputs:
-      azureSubscription: $(subscriptionVariable)
+      azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
       KeyVaultName: 'gsvault'
       SecretsFilter: 'tools-health-gss-api-secret'
       RunAsPreJob: false
