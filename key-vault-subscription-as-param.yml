@@ -35,9 +35,4 @@ steps:
     script: |
       # Write your PowerShell commands here.
       Write-Host "secret value $(azure-pipelines-svcprin--secret1)"
-      try {
-        $(azure-pipelines-svcprin--secret1).GetType()
-      }
-      catch {
-          
-      }
+      
