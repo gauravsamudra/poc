@@ -3,5 +3,5 @@ steps:
   inputs:
     azureSubscription: ${{ parameters.subsName }}
     KeyVaultName: 'gsvault'
-    SecretsFilter: 'azure-pipelines-svcprin--secret1'
+    SecretsFilter: 'tools-health-gss-api-secret'
     RunAsPreJob: false
