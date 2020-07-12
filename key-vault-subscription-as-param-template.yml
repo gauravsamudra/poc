@@ -1,3 +1,4 @@
+steps:
 - task: AzureKeyVault@1
   inputs:
     azureSubscription: 'knol-subs_vsenterprise-rg_poc-svcconn'
